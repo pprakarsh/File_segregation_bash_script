@@ -1,0 +1,27 @@
+#!/bin/bash
+
+dir="./"
+if [[ ! ( $# -eq 0 ) ]]; then
+   dir="$(realpath $1)" 
+   dir="${dir}/"
+fi
+
+
+for file in ${dir}*
+do
+    if [[ -f $file ]]; then
+        file=$(basename "$file")
+        extension="${file##*.}"
+        filename="${file%.*}"
+
+        if [[ "$filename" != "$extension" ]]; then
+            ls "${dir}"| grep -w "${extension}_files"
+
+            if [[ $? -eq 1 ]]; then
+                mkdir "${dir}${extension}_files"
+            fi
+
+            mv "${dir}${file}" "${dir}${extension}_files"
+        fi
+    fi
+done
