@@ -9,3 +9,4 @@ This shell script segregates files in a folder based on the extension of files. 
 4. Run the script using command `file_seg`, if segregation to be done in present working directory
 5. Run the script using command `file_seg directory_path`, if segregation to be done in another directory. (Here `directory_path` is path of the directory where segregation has to be done)
 
+
