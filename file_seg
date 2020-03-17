@@ -1,27 +1,30 @@
 #!/bin/bash
 
-dir="./"
+dir="./"    #Initializind directory to ./, default behaviour when no arguments provided
+
+#if direcory provided as argument 
 if [[ ! ( $# -eq 0 ) ]]; then
-   dir="$(realpath $1)" 
-   dir="${dir}/"
+   dir="$(realpath $1)"     #realpath find the absolute path of argument $1
+   dir="${dir}/"            #append / in dir variable
 fi
 
 
+#Iterating over files in the directory
 for file in ${dir}*
 do
-    if [[ -f $file ]]; then
-        file=$(basename "$file")
-        extension="${file##*.}"
-        filename="${file%.*}"
+    if [[ -f $file ]]; then                                 #if filetype of file is regular (i.e. file is not directory)
+        file=$(basename "$file")                            #finding basename of the file from the full file path   
+        extension="${file##*.}"                             #finding extension of file
+        filename="${file%.*}"                               #finding the filename excluding extension of the file
 
-        if [[ "$filename" != "$extension" ]]; then
-            ls "${dir}"| grep -w "${extension}_files"
+        if [[ "$filename" != "$extension" ]]; then          #To check if file has an extension, files with no extension do not enter the if block
+            ls "${dir}"| grep -w "${extension}_files"       #To check if directory of the file extension of this file is already present in the folder
 
-            if [[ $? -eq 1 ]]; then
-                mkdir "${dir}${extension}_files"
+            if [[ $? -eq 1 ]]; then                         #Check status of previously executed command
+                mkdir "${dir}${extension}_files"            #Create directory if directory already not present in the folder
             fi
 
-            mv "${dir}${file}" "${dir}${extension}_files"
+            mv "${dir}${file}" "${dir}${extension}_files"   #Move file to its desired destination directory
         fi
     fi
 done
